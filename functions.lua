@@ -110,20 +110,45 @@ function new_order() -- Handles a new order
     print_items()
   else
     print("Sorry, " .. tostring(user_input) .. " is not a valif input.")
+    os.execute("sleep 2")
+    new_order()
   end
 end
 
 function load_stats() -- Loads the stats
   print_hedder( )
   print(store_name .. " Stats.")
+  print("-------------------------------------------------------------------------------------")
   print("")
 
   local count = 1
   for i = 1, #items do
     os.execute("sleep 0.1")
-    print(items[count] .. " (" .. item_count[count] .. ") " .. "$" .. item_cost[count])
+    print(items[count] .. " (" .. alltime_item_count[count] .. ") " .. "$" .. alltime_item_cost[count] * alltime_item_count[count])
     count = count + 1
   end
+
+  print("")
+
+  local total_cost = 0 -- Gets total cost of receipt
+  local count = 1
+  for i = 1, #alltime_item_cost do
+    os.execute("sleep 0.1")
+    total_cost = total_cost + alltime_item_cost[count] * alltime_item_count[count]
+    count = count + 1
+  end
+  
+  local total = total_cost * tax_rate / 100
+  local total_cost = string.format("%.2f", total_cost)
+  local total = string.format("%.2f", total)
+
+  print("")
+  
+  print("Subtotal:  $" .. tostring(total_cost))
+  print("Tax:       $" .. tostring(total))
+  print("-------------------------------------")
+  print("Total:     $" .. tostring(total_cost + total))
+  
   print("")
   print("-------------------------------------------------------------------------------------")
   print("Press ENTER to return home")
@@ -144,7 +169,7 @@ function print_items() -- Prints reciept
   local count = 1 -- Prints every item on receipt
   for i = 1, #items do
     os.execute("sleep 0.1")
-    print(items[count] .. " (" .. item_count[count] .. ") " .. "$" .. item_cost[count])
+    print(alltime_items[count] .. " (" .. alltime_item_count[count] .. ") " .. "$" .. alltime_item_cost[count] * alltime_item_count[count])
     count = count + 1
   end
 
@@ -153,15 +178,23 @@ function print_items() -- Prints reciept
   local count = 1
   for i = 1, #item_cost do
     os.execute("sleep 0.1")
-    total_cost = total_cost + item_cost[count]
+    total_cost = total_cost + item_cost[count] * item_count[count]
     count = count + 1
   end
   
   print("")
-  print("Subtotal   " ..  tostring(total_cost))
-  local total = total_cost + total_cost * tax_rate / 100
+  
+  
+  local total = total_cost * tax_rate / 100
+  local total_cost = string.format("%.2f", total_cost)
   local total = string.format("%.2f", total)
-  print("total      $" .. tostring(total))
+
+  print("Subtotal:  $" .. tostring(total_cost))
+  print("Tax:       $" .. tostring(total))
+  print("-------------------------------------")
+  print("Total:     $" .. tostring(total_cost + total))
+
+  print("")
   print("-------------------------------------------------------------------------------------")
   print("Press enter to return home.")
   local user_input = io.read()
