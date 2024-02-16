@@ -124,7 +124,7 @@ function load_stats() -- Loads the stats
   local count = 1
   for i = 1, #items do
     os.execute("sleep 0.1")
-    print(items[count] .. " (" .. alltime_item_count[count] .. ") " .. "$" .. alltime_item_cost[count] * alltime_item_count[count])
+    print(items[count] .. " (" .. alltime_item_count[count] .. " @ " .. item_cost[count] .. ") " .. "$" .. alltime_item_cost[count] * alltime_item_count[count])
     count = count + 1
   end
 
@@ -169,7 +169,7 @@ function print_items() -- Prints reciept
   local count = 1 -- Prints every item on receipt
   for i = 1, #items do
     os.execute("sleep 0.1")
-    print(alltime_items[count] .. " (" .. alltime_item_count[count] .. ") " .. "$" .. alltime_item_cost[count] * alltime_item_count[count])
+    print(alltime_items[count] .. " (" .. alltime_item_count[count] .. " @ " .. item_cost[count] .. ") " .. "$" .. alltime_item_cost[count] * alltime_item_count[count])
     count = count + 1
   end
 
